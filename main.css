@@ -1,0 +1,45 @@
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.quarter{
+  margin-bottom:12px ;
+}
+
+.quarter > p{
+  background-color: beige;
+  color:#cd5b30;
+  margin: 0;
+  padding: 5px;
+}
+
+.flex-container .lesson {
+  background-color: #e5e5f9;
+  border: solid 1px #8f9f9f;
+  line-height: 30px;
+  margin: 2px;
+  padding: 5px;
+}
+
+.pre-req-select{
+  background-color: green !important;
+}
+
+.without-pre-req-select{
+  background-color: white !important;
+}
+
+#start_btn{
+  margin-left: 15px;
+  width: 70px;
+  height: 30px;
+}
+
+.taken{
+  background-color: green !important;
+}
+
+.available{
+  background-color: white !important;
+}

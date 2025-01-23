@@ -2,26 +2,18 @@ const start_btn = document.getElementById('start_btn');
 
 let start = false;
 
-let allClasses = [{
-    id: "100",
-    name: "CSD 111 Computer Programming Fundamentals 5 credits",
-    quoter: 1
-}];
-
-// document.getElementById('class_list').addChildElement(){}
-//     allClasses.forEach(value => {
-//         addClassDiv
-//     })
-// }
-
+//dictionary of taken classes
 let taken = {};
+//currently available classes
 let available = ["105", "107"];
 
+// A list of classes for which key class is a prerequisite
 let prereq = {
     "105": ["103", "110"],
     "107": ["109", "110"]
 }
 
+// A list of classes which are prerequisites for a key class
 let classPrerequisites = {
     "103": ["105"],
     "109": ["107"],
@@ -30,6 +22,7 @@ let classPrerequisites = {
 
 document.querySelectorAll(".lesson").forEach(lesson => {
     lesson.addEventListener("click", () => {
+        // When clicked, if start button was clicked before (start=true) and current class is available and not taken
         if (start && lesson.classList.contains("available") && !lesson.classList.contains("taken")) {
             taken[lesson.id] = true;
 
@@ -47,15 +40,16 @@ document.querySelectorAll(".lesson").forEach(lesson => {
                 prereq[lesson.id].forEach((dependableClass) => {
 
                     // assume dependableClass can be made available
-                    let allTaken = true;
+                    let allPrereqTaken = true;
 
+                    // Check all prerequisites for dependableClass to see if any of them is not taken yet
                     classPrerequisites[dependableClass].forEach(classe => {
                         if (!taken[classe]) {
-                            allTaken = false;
+                            allPrereqTaken = false;
                         }
                     });
 
-                    if (allTaken) {
+                    if (allPrereqTaken) {
                         available.push(dependableClass);
                     }
                 })

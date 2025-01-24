@@ -54,7 +54,7 @@ document.querySelectorAll(".lesson").forEach(lesson => {
             //If it has classes that require it, make them all white
             if(classReqDescendants[lesson.id]) {
                 classReqDescendants[lesson.id].forEach(reqClass => {
-                    document.getElementById(reqClass).classList.add("available");
+                    document.getElementById(reqClass).classList.add("preview");
                 })
             }
         }

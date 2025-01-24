@@ -4,8 +4,9 @@ let start = false;
 
 //dictionary of taken classes
 let taken = {};
-//currently available classes
-let available = ["105", "107"];
+
+// no prereq classes
+let noPrereqClasses = ["105", "107"];
 
 // A list of classes for which key class is a prerequisite
 let prereq = {
@@ -22,17 +23,13 @@ let classPrerequisites = {
 
 document.querySelectorAll(".lesson").forEach(lesson => {
     lesson.addEventListener("click", () => {
-        // When clicked, if start button was clicked before (start=true) and current class is available and not taken
-        if (start && lesson.classList.contains("available") && !lesson.classList.contains("taken")) {
+        // When clicked, if start button was clicked before (start=true) and current class is available
+        if (start && lesson.classList.contains("available")) {
             taken[lesson.id] = true;
 
             // change bg color to green
             lesson.classList.add("taken");
             lesson.classList.remove("available");
-
-            // remove id from available array
-            available.splice(available.indexOf(lesson.id), 1);
-            start = false;
 
             // if class is prerequisite
             if (prereq[lesson.id]) {
@@ -50,22 +47,17 @@ document.querySelectorAll(".lesson").forEach(lesson => {
                     });
 
                     if (allPrereqTaken) {
-                        available.push(dependableClass);
+                        document.getElementById(dependableClass).classList.add("available");
                     }
                 })
             }
-
-            available.forEach(value => {
-                document.getElementById(value).classList.remove("available");
-            })
-
         }
     })
 });
 
 start_btn.addEventListener("click", function () {
     start = true;
-    available.forEach(value => {
+    noPrereqClasses.forEach(value => {
         document.getElementById(value).classList.add("available");
     })
 });

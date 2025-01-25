@@ -6,12 +6,14 @@
  */
 
 // Declarations
-let taken = [];
+let taken = {};
 let available = ["100", "101", "102", "103", "106", "109", "112"];
-let greyClassList = ["104", "105", "107", "108", "110", "111", "113", "114", "115", "116", "117", "118", "119"];
+// let greyClassList = ["104", "105", "107", "108", "110", "111", "113", "114", "115", "116", "117", "118", "119"];
 let classReqAncestors = {
     "104": ["100"],
-    "105": ["100"]
+    "105": ["100"],
+    "107": ["104"],
+    "108": ["101"],
 };
 let classReqDescendants = {
     "100": ["104", "105"]
@@ -33,28 +35,28 @@ document.querySelectorAll(".lesson").forEach(lesson => {
     lesson.addEventListener("click", () => {
         //Only want to give descendant preview when we've 1. started the program and 2. the class we've clicked is a white class
         if(start && lesson.classList.contains("available")) {
-
-            //Reset all to be grey according to available array
-            available.forEach(value => {
-                document.getElementById(value).classList.remove("preview");
-                document.getElementById(value).classList.add("available");
-            })
-
-            //Ensure any previous descendants get turned back to grey
-            greyClassList.forEach(value => {
-              document.getElementById(value).classList.remove("available");
-              document.getElementById(value).classList.remove("preview");
-            });
-			
-            //Turn clicked class orange for debugging purposes
+            //Turn clicked class green for debugging purposes
             lesson.classList.remove("available");
-            lesson.classList.add("preview");
+            lesson.classList.add("taken");
+            taken[lesson.id] = true;
             
-
-            //If it has classes that require it, make them all white
+            //If class is prerequisite
             if(classReqDescendants[lesson.id]) {
+                //for each class where this class is prereq
                 classReqDescendants[lesson.id].forEach(reqClass => {
-                    document.getElementById(reqClass).classList.add("preview");
+                    let isAllPrereqTaken = true;
+                    
+                    //Check all prerequisites for reqClass to see if any of them have not been taken
+                    classReqAncestors[reqClass].forEach(checkedClass => {
+                        if(!taken[checkedClass]) {
+                            isAllPrereqTaken = false;
+                        }
+                    });
+
+                    if(isAllPrereqTaken) {
+                        document.getElementById(reqClass).classList.add("available");
+                    }
+                    
                 })
             }
         }

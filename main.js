@@ -16,7 +16,9 @@ let classReqAncestors = {
     "108": ["101"],
 };
 let classReqDescendants = {
-    "100": ["104", "105"]
+    "100": ["104", "105"],
+    "101": ["108"],
+    "104": ["107"]
 }
 
 // Start button functionality
@@ -45,7 +47,7 @@ document.querySelectorAll(".lesson").forEach(lesson => {
                 //for each class where this class is prereq
                 classReqDescendants[lesson.id].forEach(reqClass => {
                     let isAllPrereqTaken = true;
-                    
+
                     //Check all prerequisites for reqClass to see if any of them have not been taken
                     classReqAncestors[reqClass].forEach(checkedClass => {
                         if(!taken[checkedClass]) {

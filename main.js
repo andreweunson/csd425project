@@ -209,8 +209,6 @@ let result_html=classes_template(classes);
 let class_list=document.querySelector('#class_list .column1');
 class_list.innerHTML=result_html;
 
-console.log(result_html);
-
 let taken = {};
 let available = ["100", "101", "102", "103", "106", "109", "112"];
 // let greyClassList = ["104", "105", "107", "108", "110", "111", "113", "114", "115", "116", "117", "118", "119"];

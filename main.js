@@ -271,9 +271,22 @@ start_btn.addEventListener("click", function () {
     })*/
 });
 
+classes.quarters.forEach(quarter=>{
+    quarter.classes.forEach(cls=>{
+        let class_el=document.getElementById(cls.id);
+        class_el.addEventListener("click", () => {
+            if (start && cls.available){
+                if(cls.selected){
+                    unselectClassByObj(cls);
+                }else{
+                    selectClassByObj(cls);
+                }
+            };
+        });
+    });
+});
 
-
-document.querySelectorAll(".lesson").forEach(lesson => {
+/*document.querySelectorAll(".lesson").forEach(lesson => {
     lesson.addEventListener("click", () => {
         //Only want to give descendant preview when we've 1. started the program and 2. the class we've clicked is a white class
         if(start && lesson.classList.contains("available")) {
@@ -303,7 +316,7 @@ document.querySelectorAll(".lesson").forEach(lesson => {
             }
         }
     });
-});
+});*/
     
 
 

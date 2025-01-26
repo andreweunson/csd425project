@@ -209,26 +209,25 @@ let result_html=classes_template(classes);
 let class_list=document.querySelector('#class_list .column1');
 class_list.innerHTML=result_html;
 
-let taken = {};
-let available = ["100", "101", "102", "103", "106", "109", "112"];
-// let greyClassList = ["104", "105", "107", "108", "110", "111", "113", "114", "115", "116", "117", "118", "119"];
-let classReqAncestors = {
-    "104": ["100"],
-    "105": ["100"],
-    "107": ["104"],
-    "108": ["101"],
-};
-let classReqDescendants = {
-    "100": ["104", "105"],
-    "101": ["108"],
-    "104": ["107"]
-}
+
 
 const selectClassByObj=clsObj=>{
 
     clsObj.selected=true;
     let class_el=document.getElementById(clsObj.id);
+    class_el.classList.remove("available");
     class_el.classList.add("taken");
+
+    //also make any classes that have it as a pre-req become available
+    classes.quarters.forEach(quarter=>{
+        quarter.classes.forEach(cls=>{
+            if(cls.prereqs.indexOf(clsObj.id)>-1){
+                cls.available=true;
+                let class_el=document.getElementById(cls.id);
+                class_el.classList.add("available");
+            }
+        });
+    });
 }
 
 const unselectClassByObj=clsObj=>{
@@ -237,6 +236,7 @@ const unselectClassByObj=clsObj=>{
     clsObj.selected=false;
     var class_el=document.getElementById(clsObj.id);
     class_el.classList.remove("taken");
+    class_el.classList.add("available");
 
     //also make any classes that have it as a pre-req become unavailable
     classes.quarters.forEach(quarter=>{
@@ -266,9 +266,6 @@ start_btn.addEventListener("click", function () {
         });
     });
 
-    /*available.forEach(value => {
-        document.getElementById(value).classList.add("available");
-    })*/
 });
 
 classes.quarters.forEach(quarter=>{
@@ -286,37 +283,7 @@ classes.quarters.forEach(quarter=>{
     });
 });
 
-/*document.querySelectorAll(".lesson").forEach(lesson => {
-    lesson.addEventListener("click", () => {
-        //Only want to give descendant preview when we've 1. started the program and 2. the class we've clicked is a white class
-        if(start && lesson.classList.contains("available")) {
-            //Turn clicked class green for debugging purposes
-            lesson.classList.remove("available");
-            lesson.classList.add("taken");
-            taken[lesson.id] = true;
-            
-            //If class is prerequisite
-            if(classReqDescendants[lesson.id]) {
-                //for each class where this class is prereq
-                classReqDescendants[lesson.id].forEach(reqClass => {
-                    let isAllPrereqTaken = true;
 
-                    //Check all prerequisites for reqClass to see if any of them have not been taken
-                    classReqAncestors[reqClass].forEach(checkedClass => {
-                        if(!taken[checkedClass]) {
-                            isAllPrereqTaken = false;
-                        }
-                    });
-
-                    if(isAllPrereqTaken) {
-                        document.getElementById(reqClass).classList.add("available");
-                    }
-                    
-                })
-            }
-        }
-    });
-});*/
     
 
 

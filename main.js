@@ -224,6 +224,34 @@ let classReqDescendants = {
     "104": ["107"]
 }
 
+const selectClassByObj=clsObj=>{
+
+    clsObj.selected=true;
+    let class_el=document.getElementById(clsObj.id);
+    class_el.classList.add("taken");
+}
+
+const unselectClassByObj=clsObj=>{
+
+    //deselecting class
+    clsObj.selected=false;
+    let class_el=document.getElementById(clsObj.id);
+    class_el.classList.remove("taken");
+
+    //also make any classes that have it as a pre-req become unavailable
+    classes.quarters.forEach(quarter=>{
+        quarter.classes.forEach(cls=>{
+            if(cls.prereqs.indexOf(clsObj.id)){
+                cls.selected=false;
+                cls.available=false;
+                let class_el=document.getElementById(cls.id);
+                class_el.classList.remove("taken");
+                class_el.classList.remove("available");
+            }
+        });
+    });
+}
+
 // Start button functionality
 const start_btn = document.getElementById('start_btn');
 let start = false;

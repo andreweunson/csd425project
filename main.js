@@ -16,28 +16,28 @@ let classes={
                     "id" : 100,
                     "name" : "CSD 111 Computer Programming Fundamentals 5 credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 101,
                     "name" : "CSD 112 HTML and CSS 5 credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 102,
                     "name" : "GAME 108 Interactive Media Design 5 Credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 103,
                     "name" : "Humanities course 5 Credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
             ]
@@ -50,21 +50,21 @@ let classes={
                     "id" : 104,
                     "name" : "CSS 141 Computer Science I Java 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[100]
                 },
                 {
                     "id" : 105,
                     "name" : "CSD 138 Structured Query Language (SQL) 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[100]
                 },
                 {
                     "id" : 106,
                     "name" : "ENG 101 English Composition 5 Credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
 
@@ -78,21 +78,21 @@ let classes={
                     "id" : 107,
                     "name" : "CS 143 Computer Science II Java 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[104]
                 },
                 {
                     "id" : 108,
                     "name" : "CSD 122 JavaScript and jQuery 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[101]
                 },
                 {
                     "id" : 109,
                     "name" : "MATH& 141 English Pre-Calculus 5 Credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
 
@@ -106,21 +106,21 @@ let classes={
                     "id" : 110,
                     "name" : "CSD 228 Programming with CA 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 111,
                     "name" : "CSD 275 PHP Scripting 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 112,
                     "name" : "Social Science course 5 Credits",
                     "available" : true,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
 
@@ -134,21 +134,21 @@ let classes={
                     "id" : 113,
                     "name" : "CSD 230 Programming For Mobile Device 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 114,
                     "name" : "CSD 233 C++ Programming 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 115,
                     "name" : "CSD 268 Quality Assurance Methodologies 5 Credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
 
@@ -162,28 +162,28 @@ let classes={
                     "id" : 116,
                     "name" : "CSD 299 IT Project 3 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 117,
                     "name" : "CSD 298 Technical Interview/Job 5 credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 118,
                     "name" : "DSGN 290 Portfolio/Job Search 5 Credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
                 {
                     "id" : 119,
                     "name" : "CSD,CSNT,DSGN, or GAME Technical Elective course 4.5 Credits",
                     "available" : false,
-                    "taken" : false,
+                    "selected" : false,
                     "prereqs" :[]
                 },
             ]
@@ -235,13 +235,13 @@ const unselectClassByObj=clsObj=>{
 
     //deselecting class
     clsObj.selected=false;
-    let class_el=document.getElementById(clsObj.id);
+    var class_el=document.getElementById(clsObj.id);
     class_el.classList.remove("taken");
 
     //also make any classes that have it as a pre-req become unavailable
     classes.quarters.forEach(quarter=>{
         quarter.classes.forEach(cls=>{
-            if(cls.prereqs.indexOf(clsObj.id)){
+            if(cls.prereqs.indexOf(clsObj.id)>-1){
                 cls.selected=false;
                 cls.available=false;
                 let class_el=document.getElementById(cls.id);
@@ -260,8 +260,8 @@ start_btn.addEventListener("click", function () {
     classes.quarters.forEach(quarter=>{
 
         quarter.classes.forEach(cls=>{
-            let class_el=document.getElementById(cls.id);
-            class_el.classList.remove("taken");
+            if(cls.selected)unselectClassByObj(cls);
+            var class_el=document.getElementById(cls.id);
             if(cls.available)class_el.classList.add("available");
         });
     });

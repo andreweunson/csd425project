@@ -229,9 +229,18 @@ const start_btn = document.getElementById('start_btn');
 let start = false;
 start_btn.addEventListener("click", function () {
     start = true;
-    available.forEach(value => {
+    classes.quarters.forEach(quarter=>{
+
+        quarter.classes.forEach(cls=>{
+            let class_el=document.getElementById(cls.id);
+            class_el.classList.remove("taken");
+            if(cls.available)class_el.classList.add("available");
+        });
+    });
+
+    /*available.forEach(value => {
         document.getElementById(value).classList.add("available");
-    })
+    })*/
 });
 
 
